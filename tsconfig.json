@@ -14,7 +14,8 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     "verbatimModuleSyntax": true,
-    "allowImportingTsExtensions": true,
+    "baseUrl": ".",
+    // "allowImportingTsExtensions": true,
     "paths": {
       "@/*": ["./src/*"],
       "@/lib/*": ["src/lib/*"]
