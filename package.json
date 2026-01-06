@@ -1,19 +1,28 @@
 {
   "name": "tha-susbot",
+  "type": "module",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --loader ts-node/esm -r dotenv/config src/index.ts",
+    "register": "node --loader ts-node/esm -r dotenv/config src/register.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "discord.js": "^14.25.1"
+    "@prisma/adapter-pg": "^7.2.0",
+    "@prisma/client": "^7.2.0",
+    "discord.js": "^14.25.1",
+    "dotenv": "^17.2.3",
+    "pg": "^8.16.3"
   },
   "devDependencies": {
     "@types/node": "^25.0.3",
+    "@types/pg": "^8.16.0",
+    "prisma": "^7.2.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   }
