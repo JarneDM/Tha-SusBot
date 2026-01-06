@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "discord.js";
-import prisma from "../../lib/client.ts";
+import prisma from "../lib/client.ts";
 
 export const VoicetimeCommand = {
   data: new SlashCommandBuilder().setName("voicetime").setDescription("Laat zien hoeveel tijd je in voice hebt doorgebracht"),

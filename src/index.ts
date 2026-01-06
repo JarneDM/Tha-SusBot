@@ -7,7 +7,7 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, "../.env.local") });
 
 import { Client, GatewayIntentBits, Collection } from "discord.js";
-import prisma from "../lib/client.ts";
+import prisma from "./lib/client.js";
 import { VoicetimeCommand } from "./commands/voicetime.ts";
 import { LeaderboardCommand } from "./commands/leaderboard.ts";
 

@@ -3,21 +3,22 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "target": "es2022",
-    "allowJs": true,
-    "resolveJsonModule": true,
-    "moduleDetection": "force",
-    "isolatedModules": true,
-    "verbatimModuleSyntax": true,
+    "module": "ESNext",
+    "outDir": "dist",
+    "rootDir": "src",
     "strict": true,
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "isolatedModules": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
-    "module": "preserve",
-    "noEmit": true,
-    "lib": ["es2022"],
+    "verbatimModuleSyntax": true,
     "allowImportingTsExtensions": true,
     "paths": {
       "@/*": ["./src/*"],
-      "@/lib/*": ["./lib/*"]
+      "@/lib/*": ["src/lib/*"]
     }
-  }
+  },
+  "include": ["src/**/*"]
 }
