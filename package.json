@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node --loader ts-node/esm -r dotenv/config src/index.ts",
-    "register": "node --loader ts-node/esm -r dotenv/config src/register.ts"
+    "register": "node --loader ts-node/esm -r dotenv/config src/register.ts",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
