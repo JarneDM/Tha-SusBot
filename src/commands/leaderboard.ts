@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
-import prisma from "../lib/client.ts";
+import prisma from "../lib/client.js";
 
 export const LeaderboardCommand = {
   data: new SlashCommandBuilder().setName("leaderboard").setDescription("Toon de voice time leaderboard"),

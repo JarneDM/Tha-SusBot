@@ -1,5 +1,5 @@
 import { VoiceState, Client } from "discord.js";
-import prisma from "../lib/client.ts";
+import prisma from "../lib/client.js";
 
 export async function handleVoiceStateUpdate(client: Client, oldState: VoiceState, newState: VoiceState) {
   const userId = newState.id;

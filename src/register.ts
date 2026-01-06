@@ -16,9 +16,9 @@ if (!TOKEN || !CLIENT_ID) {
 }
 
 async function registerAllCommands() {
-  const { registerCommands } = await import("./commands/pings.ts");
-  const { VoicetimeCommand } = await import("./commands/voicetime.ts");
-  const { LeaderboardCommand } = await import("./commands/leaderboard.ts");
+  const { registerCommands } = await import("./commands/pings.js");
+  const { VoicetimeCommand } = await import("./commands/voicetime.js");
+  const { LeaderboardCommand } = await import("./commands/leaderboard.js");
 
   const commands = [
     {
