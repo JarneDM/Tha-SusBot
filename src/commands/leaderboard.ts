@@ -15,8 +15,8 @@ export const LeaderboardCommand = {
     });
 
     const usersWithOnlyActiveSessions = allUsers
-      .filter((u) => !usersWithCompletedSessions.find((c) => c.userId === u.userId))
-      .map((u) => u.userId);
+      .filter((u: any) => !usersWithCompletedSessions.find((c: any) => c.userId === u.userId))
+      .map((u: any) => u.userId);
 
     const topUsers = await prisma.voiceSession.groupBy({
       by: ["userId"],
@@ -28,11 +28,11 @@ export const LeaderboardCommand = {
 
     console.log(
       "Leaderboard users:",
-      topUsers.map((u) => ({ userId: u.userId, totalSeconds: u._sum.durationSec }))
+      topUsers.map((u: any) => ({ userId: u.userId, totalSeconds: u._sum.durationSec }))
     );
 
     const leaderboardText = await Promise.all(
-      topUsers.map(async (entry, index) => {
+      topUsers.map(async (entry: any, index: any) => {
         const user = await interaction.guild.members.fetch(entry.userId).catch(() => null);
         const seconds = entry._sum.durationSec ?? 0;
         const hours = Math.floor(seconds / 3600);

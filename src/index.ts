@@ -8,8 +8,8 @@ dotenv.config({ path: path.resolve(__dirname, "../.env.local") });
 
 import { Client, GatewayIntentBits, Collection } from "discord.js";
 import prisma from "./lib/client.js";
-import { VoicetimeCommand } from "./commands/voicetime.ts";
-import { LeaderboardCommand } from "./commands/leaderboard.ts";
+import { VoicetimeCommand } from "./commands/voicetime.js";
+import { LeaderboardCommand } from "./commands/leaderboard.js";
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates] }) as any;
 console.log("DISCORD_TOKEN:", process.env.DISCORD_TOKEN ? "loaded" : "missing");
