@@ -1,3 +1,4 @@
 *.env.local
 *.env
 /generated/prisma
+/node_modules
