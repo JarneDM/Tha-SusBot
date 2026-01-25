@@ -1,0 +1,84 @@
+import { createClient } from "@supabase/supabase-js";
+import { config } from "dotenv";
+import path from "path";
+import { v4 as uuidv4 } from "uuid";
+
+config({ path: new URL("../../.env", import.meta.url).pathname });
+
+
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_ANON_KEY;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+if (!supabaseUrl || !supabaseKey) throw new Error("Supabase credentials are missing!");
+if (!supabaseServiceKey) throw new Error("Supabase service role key is missing!");
+
+
+export const supabase = createClient(supabaseUrl, supabaseKey);
+export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
+
+// Create user if not exists
+export async function createUser(userId) {
+  const { data, error } = await supabaseAdmin.from("user").upsert({ id: userId }, { onConflict: ["id"] });
+
+  if (error) console.error("createUser error:", error);
+  return data;
+}
+
+// Start a new voice session
+export async function createVoiceSession(userId, channelId) {
+  const { data, error } = await supabaseAdmin.from("voicesession").insert([
+    {
+      id: uuidv4(), 
+      userId,
+      channelId,
+      joinedAt: new Date(),
+    },
+  ]);
+
+  if (error) console.error("createVoiceSession error:", error);
+  return data;
+}
+
+// End the active voice session
+export async function endVoiceSession(userId) {
+  // find the latest session without leftAt
+  const { data: sessions, error } = await supabaseAdmin
+    .from("voicesession")
+    .select("*")
+    .eq("userId", userId)
+    .is("leftAt", null)
+    .order("joinedAt", { ascending: false })
+    .limit(1);
+
+  if (error) return console.error("endVoiceSession error:", error);
+  if (!sessions || sessions.length === 0) return;
+
+  const session = sessions[0];
+  const durationSec = Math.floor((Date.now() - new Date(session.joinedAt).getTime()) / 1000);
+
+  const { error: updateError } = await supabaseAdmin.from("voicesession").update({ leftAt: new Date(), durationSec }).eq("id", session.id);
+
+  if (updateError) console.error("endVoiceSession update error:", updateError);
+}
+
+// Get leaderboard
+export async function getLeaderboard(limit = 10) {
+  const { data, error } = await supabaseAdmin.from("voicesession").select("userId, durationSec").not("durationSec", "is", null);
+
+  if (error) return [];
+
+  // sum duration per user
+  const totals = {};
+  data.forEach((row) => {
+    totals[row.userId] = (totals[row.userId] || 0) + row.durationSec;
+  });
+
+  // convert to array and sort descending
+  const leaderboard = Object.entries(totals)
+    .map(([userId, totalSec]) => ({ userId, totalSec }))
+    .sort((a, b) => b.totalSec - a.totalSec)
+    .slice(0, limit);
+
+  return leaderboard;
+}
