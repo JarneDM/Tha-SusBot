@@ -3,7 +3,8 @@ import { config } from "dotenv";
 import { LeaderboardCommand } from "./commands/leaderboard.js";
 import { VoicetimeCommand } from "./commands/voicetime.js";
 
-config({ path: new URL("../../.env", import.meta.url).pathname });
+// config({ path: new URL("../../.env", import.meta.url).pathname });
+config();
 
 const commands = [
   LeaderboardCommand.data.toJSON(),

@@ -3,7 +3,8 @@ import { config } from "dotenv";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
 
-config({ path: new URL("../../.env", import.meta.url).pathname });
+// config({ path: new URL("../../.env", import.meta.url).pathname });
+config();
 
 
 const supabaseUrl = process.env.SUPABASE_URL;

@@ -6,7 +6,8 @@ import { VoicetimeCommand } from "./commands/voicetime.js";
 import { LeaderboardCommand } from "./commands/leaderboard.js";
 import { handleVoiceStateUpdate } from "./events/voiceStateUpdate.js"; // nieuwe file
 
-config({ path: new URL("../../.env", import.meta.url).pathname });
+// config({ path: new URL("../../.env", import.meta.url).pathname });
+config();
 
 const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildMessages],
