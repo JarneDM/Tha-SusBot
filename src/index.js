@@ -4,7 +4,8 @@ import path from "path";
 import * as db from "./lib/db.js"; // ons database bestand
 import { VoicetimeCommand } from "./commands/voicetime.js";
 import { LeaderboardCommand } from "./commands/leaderboard.js";
-import { handleVoiceStateUpdate } from "./events/voiceStateUpdate.js"; // nieuwe file
+import { handleVoiceStateUpdate } from "./events/voiceStateUpdate.js";
+import { WarnCommand, GetWarningsCommand, WarningLeaderboardCommand } from "./commands/warn.js";
 
 // config({ path: new URL("../../.env", import.meta.url).pathname });
 config();
@@ -13,17 +14,17 @@ const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildMessages],
 });
 
-// Commands
 client.commands = new Collection();
 client.commands.set("voicetime", VoicetimeCommand);
 client.commands.set("leaderboard", LeaderboardCommand);
+client.commands.set("warn", WarnCommand);
+client.commands.set("getwarnings", GetWarningsCommand);
+client.commands.set("warningleaderboard", WarningLeaderboardCommand);
 
-// Bot ready
 client.once(Events.ClientReady, () => {
   console.log(`Logged in als ${client.user.tag}`);
 });
 
-// Slash command handler
 client.on(Events.InteractionCreate, async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
@@ -41,7 +42,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
   }
 });
 
-// ✅ Voice state tracking via de nieuwe handler
 client.on(Events.VoiceStateUpdate, async (oldState, newState) => {
   try {
     await handleVoiceStateUpdate(client, oldState, newState);
@@ -50,7 +50,6 @@ client.on(Events.VoiceStateUpdate, async (oldState, newState) => {
   }
 });
 
-// Login
 const TOKEN = process.env.DISCORD_TOKEN;
 if (!TOKEN) throw new Error("DISCORD_TOKEN is not defined in environment variables.");
 
