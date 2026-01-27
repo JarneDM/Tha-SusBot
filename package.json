@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/index.js",
+    "start": "node src/register.js && node src/index.js",
     "render-start": "npm run build && npm run start",
     "register": "node --loader ts-node/esm -r dotenv/config src/register.ts"
   },

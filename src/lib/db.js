@@ -19,8 +19,8 @@ export const supabase = createClient(supabaseUrl, supabaseKey);
 export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
 
 // Create user if not exists
-export async function createUser(userId) {
-  const { data, error } = await supabaseAdmin.from("user").upsert({ id: userId }, { onConflict: ["id"] });
+export async function createUser(userId, username) {
+  const { data, error } = await supabaseAdmin.from("user").upsert({ id: userId, username }, { onConflict: ["id"] });
 
   if (error) console.error("createUser error:", error);
   return data;
@@ -80,6 +80,69 @@ export async function getLeaderboard(limit = 10) {
     .map(([userId, totalSec]) => ({ userId, totalSec }))
     .sort((a, b) => b.totalSec - a.totalSec)
     .slice(0, limit);
+
+  return leaderboard;
+}
+
+export async function addWarning(userId, username, reason) {
+  await createUser(userId, username);
+  const { data, error } = await supabaseAdmin.from("warnings").insert([
+    {
+      id: uuidv4(),
+      userId,
+      reason,
+      warnedAt: new Date(),
+    },
+  ]);
+
+  if (error) console.error("addWarning error:", error);
+  return data;
+}
+
+export async function getWarnings(userId) {
+  const { data, error } = await supabaseAdmin.from("warnings").select("*").eq("userId", userId).order("warnedAt", { ascending: true });
+
+  if (error) {
+    console.error("getWarnings error:", error);
+    return [];
+  }
+  return data;
+}
+
+export async function warningLeaderboard(limit = 10) {
+  const { data, error } = await supabaseAdmin.from("warnings").select("userId, id");
+
+  if (error) {
+    console.error("warningLeaderboard error:", error);
+    return [];
+  }
+
+  if (!data || data.length === 0) return [];
+
+  // count warnings per user
+  const counts = {};
+  data.forEach((row) => {
+    if (row.userId) {
+      counts[row.userId] = (counts[row.userId] || 0) + 1;
+    }
+  });
+
+  // convert to array and sort descending and also get user names
+  const leaderboard = Object.entries(counts)
+    .map(([userId, count]) => ({ userId, count }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, limit);
+
+  // fetch user names
+  for (const entry of leaderboard) {
+    const { data: userData, error: userError } = await supabaseAdmin.from("user").select("username").eq("id", entry.userId).single();
+    if (userError) {
+      console.error("warningLeaderboard user fetch error:", userError);
+      entry.name = "Unknown User";
+    } else {
+      entry.name = userData?.username || "Unknown User";
+    }
+  }
 
   return leaderboard;
 }
