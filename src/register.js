@@ -3,6 +3,7 @@ import { config } from "dotenv";
 import { LeaderboardCommand } from "./commands/leaderboard.js";
 import { VoicetimeCommand } from "./commands/voicetime.js";
 import { WarnCommand, GetWarningsCommand, WarningLeaderboardCommand } from "./commands/warn.js";
+import { NewsCommand } from "./commands/news.js";
 
 // config({ path: new URL("../../.env", import.meta.url).pathname });
 config();
@@ -13,6 +14,7 @@ const commands = [
   WarnCommand.data.toJSON(),
   GetWarningsCommand.data.toJSON(),
   WarningLeaderboardCommand.data.toJSON(),
+  NewsCommand.data.toJSON(),
 ];
 
 const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_TOKEN);
