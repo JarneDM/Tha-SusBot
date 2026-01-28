@@ -41,6 +41,26 @@ export async function createVoiceSession(userId, channelId) {
   return data;
 }
 
+export async function getVoiceChannels() {
+  const { data, error } = await supabaseAdmin.from("voicechannel").select("*");
+
+  if (error) {
+    console.error("getVoiceChannels error:", error);
+    return [];
+  }
+  return data;
+}
+
+export const getVoiceSessionsByUser = async (userId) => {
+  const { data, error } = await supabaseAdmin.from("voicesession").select("*").eq("userId", userId).order("joinedAt", { ascending: false });
+
+  if (error) {
+    console.error("getVoiceSessionsByUser error:", error);
+    return [];
+  }
+  return data;
+};
+
 // End the active voice session
 export async function endVoiceSession(userId) {
   // find the latest session without leftAt

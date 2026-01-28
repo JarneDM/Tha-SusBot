@@ -6,6 +6,7 @@ import { VoicetimeCommand } from "./commands/voicetime.js";
 import { LeaderboardCommand } from "./commands/leaderboard.js";
 import { handleVoiceStateUpdate } from "./events/voiceStateUpdate.js";
 import { WarnCommand, GetWarningsCommand, WarningLeaderboardCommand } from "./commands/warn.js";
+import { NewsCommand } from "./commands/news.js";
 
 // config({ path: new URL("../../.env", import.meta.url).pathname });
 config();
@@ -20,6 +21,7 @@ client.commands.set("leaderboard", LeaderboardCommand);
 client.commands.set("warn", WarnCommand);
 client.commands.set("getwarnings", GetWarningsCommand);
 client.commands.set("warningleaderboard", WarningLeaderboardCommand);
+client.commands.set("news", NewsCommand);
 
 client.once(Events.ClientReady, () => {
   console.log(`Logged in als ${client.user.tag}`);
