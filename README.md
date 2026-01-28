@@ -56,19 +56,8 @@ lib/
    SUPABASE_SERVICE_ROLE_KEY=your_service_key
    ```
 
-4. Set up the database:
 
-   ```bash
-   npx prisma migrate dev
-   ```
-
-5. Register slash commands:
-
-   ```bash
-   npm run register
-   ```
-
-6. Start the bot:
+4. Register commands and start the bot:
    ```bash
    npm run start
    ```
