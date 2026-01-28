@@ -3,17 +3,28 @@ import { getLeaderboard, getVoiceChannels, getVoiceSessionsByUser } from "../lib
 
 // command to check how much time the user has spent in voice channels
 export const VoicetimeCommand = {
-  data: new SlashCommandBuilder().setName("voicetime").setDescription("Bekijk hoeveel tijd je in voice hebt doorgebracht"),
+  data: new SlashCommandBuilder()
+    .setName("voicetime")
+    .setDescription("Bekijk hoeveel tijd je in voice hebt doorgebracht")
+    .addUserOption((option) => option.setName("user").setDescription("De user waarvan je de voice tijd wilt bekijken").setRequired(false)),
 
   async execute(interaction) {
     // get all users from the leaderboard
     const topUsers = await getLeaderboard(1000);
-    const userEntry = topUsers.find((u) => u.userId === interaction.user.id);
+    const userEntry = topUsers.find((u) => u.userId === interaction.options.getUser("user")?.id || interaction.user.id);
     const totalSec = userEntry?.totalSec ?? 0;
+    let embed = new EmbedBuilder()
+      .setTitle(`Voice tijd voor ${interaction.options.getUser("user")?.username || interaction.user.username}`)
+      .setColor("Blue");
 
     // fetch all voice channels and sessions for this user
     const voiceChannels = await getVoiceChannels();
-    const userSessions = await getVoiceSessionsByUser(interaction.user.id);
+    const userSessions = await getVoiceSessionsByUser(interaction.options.getUser("user")?.id || interaction.user.id);
+    if (userSessions.length === 0) {
+      embed.addFields({ name: "Geen voice tijd", value: "Deze gebruiker heeft nog geen tijd in voice kanalen doorgebracht." });
+      await interaction.reply({ embeds: [embed] });
+      return;
+    }
 
     // initialize a map to track time spent in each channel
     const channelTimeMap = {};
@@ -29,7 +40,7 @@ export const VoicetimeCommand = {
     }
 
     // create embed with the user's voice time per channel
-    let embed = new EmbedBuilder().setTitle(`Voice tijd voor ${interaction.user.username}`).setColor("Blue");
+
     for (const channel of voiceChannels) {
       const seconds = channelTimeMap[channel.id] || 0;
       // convert seconds to hours and minutes
