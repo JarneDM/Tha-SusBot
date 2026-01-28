@@ -7,34 +7,33 @@ A Discord bot for tracking voice channel activity and statistics among friends o
 - **Voice Time Tracking**: Automatically tracks how long each user spends in voice channels
 - **Voicetime Command**: Check your personal voice channel statistics with `/voicetime`
 - **Leaderboard**: View the top voice time users with `/leaderboard`
-- **Persistent Storage**: All data is stored in a PostgreSQL database via Prisma ORM
+- **Warn**: Warn another user with `/warn` (everyone can warn eachother since its just me and my friends in this server)
+- **Warn leaderboard**: See how much warnings each user has with `/warningleaderboard`
+- **Get Warning**: See the amount of warnings of one user with `/getwarnings`
+- **Persistent Storage**: All data is stored in a PostgreSQL database in supabase
 
 ## Tech Stack
 
 - **Runtime**: Node.js v20+
-- **Language**: TypeScript
+- **Language**: JavaScript
 - **Discord Library**: discord.js v14
-- **ORM**: Prisma v7
 - **Database**: PostgreSQL
-- **Build Tool**: ts-node/esm
 
 ## Project Structure
 
 ```
 src/
-├── index.ts              # Main bot entry point
-├── register.ts           # Slash command registration
+├── index.js              # Main bot entry point
+├── register.js           # Slash command registration
 ├── commands/
-│   ├── voicetime.ts      # User voice time statistics command
-│   ├── leaderboard.ts    # Leaderboard command
-│   └── pings.ts          # Ping command
+│   ├── voicetime.js      # User voice time statistics command
+│   ├── leaderboard.js    # Leaderboard command
+│   └── warn.js           # All the warning commands
 ├── events/
-│   └── voiceStateUpdate.ts # Voice state change event handler
+│   └── voiceStateUpdate.js # Voice state change event handler
 lib/
-├── client.ts             # Prisma database client
-prisma/
-├── schema.prisma         # Database schema
-└── migrations/           # Database migrations
+├── client.js             # Prisma database client
+└── db.js                 # All the logic that has to do with the db
 ```
 
 ## Installation
@@ -53,6 +52,8 @@ prisma/
    CLIENT_ID=your_client_id
    GUILD_ID=your_guild_id
    DATABASE_URL=postgresql://user:password@localhost:5432/yourbotname
+   SUPABASE_ANON_KEY=your_anon_key
+   SUPABASE_SERVICE_ROLE_KEY=your_service_key
    ```
 
 4. Set up the database:
@@ -86,17 +87,30 @@ Displays the top 10 users by voice channel time. Only includes users with comple
 
 **Usage**: `/leaderboard`
 
-### `/ping`
+### `/warn`
 
-Checks if the bot is responding.
+Warn another player with or without reason.
 
-**Usage**: `/ping`
+**Usage**: `/warn`
+
+### `/getwarning`
+
+Get the warnings of one player.
+
+**Usage**: `/getwarning`
+
+### `/warningleaderboard`
+
+Get the top 10 users with the highest warning.
+
+**Usage**: `/warningleaderboard`
 
 ## Database Schema
 
-- **User**: Stores Discord user information
-- **VoiceChannel**: Tracks Discord voice channels
-- **VoiceSession**: Records individual voice channel sessions with duration
+- **user**: Stores Discord user information
+- **voicechannel**: Tracks Discord voice channels
+- **voicesession**: Records individual voice channel sessions with duration
+- **warnings**: Stores the warnings with the user id and the reason (if reason was given)
 
 ## Development
 
@@ -105,12 +119,7 @@ Checks if the bot is responding.
 ```bash
 npm run start
 ```
-
-### Registering Commands
-
-```bash
-npm run register
-```
+Runs register.js first to register the commands and then the index.js file to run the bot.
 
 ## License
 
