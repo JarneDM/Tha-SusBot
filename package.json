@@ -18,15 +18,22 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@discord-player/extractor": "^7.1.0",
+    "@discordjs/voice": "^0.19.0",
     "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.3.0",
+    "@snazzah/davey": "^0.1.9",
     "@supabase/supabase-js": "^2.91.1",
     "discord-player": "^7.1.0",
+    "discord-player-youtubei": "^1.5.0",
     "discord.js": "^14.25.1",
     "dotenv": "^17.2.3",
+    "ffmpeg-static": "^5.3.0",
     "pg": "^8.16.3",
+    "play-dl": "^1.9.7",
     "supabase": "^2.72.8",
-    "uuid": "^13.0.0"
+    "uuid": "^13.0.0",
+    "ytdl-core": "^4.11.5"
   },
   "devDependencies": {
     "@types/node": "^25.0.3",

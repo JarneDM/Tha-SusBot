@@ -9,12 +9,18 @@ import { handleVoiceStateUpdate } from "./events/voiceStateUpdate.js";
 import { WarnCommand, GetWarningsCommand, WarningLeaderboardCommand } from "./commands/warn.js";
 import { NewsCommand } from "./commands/news.js";
 import { setupArkEvents } from "./events/arkEvents.js";
+// import { TestArkCommand } from "./commands/testark.js";
 
 // config({ path: new URL("../../.env", import.meta.url).pathname });
 config();
 
 const client = new Client({
-  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildMessages],
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildVoiceStates,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+  ],
 });
 
 client.commands = new Collection();
@@ -25,10 +31,16 @@ client.commands.set("getwarnings", GetWarningsCommand);
 client.commands.set("warningleaderboard", WarningLeaderboardCommand);
 client.commands.set("news", NewsCommand);
 client.commands.set("timeout", TimeoutCommand);
+// client.commands.set("testark", TestArkCommand);
 
 client.once(Events.ClientReady, () => {
   console.log(`Logged in als ${client.user.tag}`);
+  console.log("[ARK DEBUG] setupArkEvents is being called...");
 });
+
+// Setup Ark events BEFORE login
+setupArkEvents(client);
+console.log("[ARK DEBUG] setupArkEvents called");
 
 client.on(Events.InteractionCreate, async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
@@ -54,9 +66,6 @@ client.on(Events.VoiceStateUpdate, async (oldState, newState) => {
     console.error("Error in voiceStateUpdate handler:", error);
   }
 });
-
-// Setup Ark events
-setupArkEvents(client);
 
 const TOKEN = process.env.DISCORD_TOKEN;
 if (!TOKEN) throw new Error("DISCORD_TOKEN is not defined in environment variables.");
