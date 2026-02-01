@@ -9,6 +9,10 @@ export const VoicetimeCommand = {
     .addUserOption((option) => option.setName("user").setDescription("De user waarvan je de voice tijd wilt bekijken").setRequired(false)),
 
   async execute(interaction) {
+    // defer reply immediately to prevent timeout
+    const isEphemeral = !interaction.options.getUser("user") || interaction.options.getUser("user")?.id === interaction.user.id;
+    await interaction.deferReply({ flags: isEphemeral ? MessageFlags.Ephemeral : 0 });
+
     // get all users from the leaderboard
     const topUsers = await getLeaderboard(1000);
     const userEntry = topUsers.find((u) => u.userId === interaction.options.getUser("user")?.id || interaction.user.id);
@@ -22,11 +26,7 @@ export const VoicetimeCommand = {
     const userSessions = await getVoiceSessionsByUser(interaction.options.getUser("user")?.id || interaction.user.id);
     if (userSessions.length === 0) {
       embed.addFields({ name: "Geen voice tijd", value: "Deze gebruiker heeft nog geen tijd in voice kanalen doorgebracht." });
-      if (!interaction.options.getUser("user") || interaction.options.getUser("user")?.id === interaction.user.id) {
-        await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
-      } else {
-        await interaction.reply({ embeds: [embed] });
-      }
+      await interaction.editReply({ embeds: [embed] });
       return;
     }
 
@@ -59,10 +59,6 @@ export const VoicetimeCommand = {
     // const hours = Math.floor(totalSec / 3600);
     // const minutes = Math.floor((totalSec % 3600) / 60);
 
-    if (!interaction.options.getUser("user") || interaction.options.getUser("user")?.id === interaction.user.id) {
-      await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
-    } else {
-      await interaction.reply({ embeds: [embed] });
-    }
+    await interaction.editReply({ embeds: [embed] });
   },
 };
