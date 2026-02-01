@@ -8,6 +8,7 @@ import { LeaderboardCommand } from "./commands/leaderboard.js";
 import { handleVoiceStateUpdate } from "./events/voiceStateUpdate.js";
 import { WarnCommand, GetWarningsCommand, WarningLeaderboardCommand } from "./commands/warn.js";
 import { NewsCommand } from "./commands/news.js";
+import { setupArkEvents } from "./events/arkEvents.js";
 
 // config({ path: new URL("../../.env", import.meta.url).pathname });
 config();
@@ -53,6 +54,9 @@ client.on(Events.VoiceStateUpdate, async (oldState, newState) => {
     console.error("Error in voiceStateUpdate handler:", error);
   }
 });
+
+// Setup Ark events
+setupArkEvents(client);
 
 const TOKEN = process.env.DISCORD_TOKEN;
 if (!TOKEN) throw new Error("DISCORD_TOKEN is not defined in environment variables.");
