@@ -7,8 +7,8 @@ export const TimeoutCommand = {
     .setName("timeout")
     .setDescription("Timeout een gebruiker voor 1 minuut")
     .addUserOption((option) => option.setName("user").setDescription("De gebruiker die je wil timeouten").setRequired(true))
-    .addStringOption((option) => option.setName("reason").setDescription("Reden voor de timeout").setRequired(false))
-    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers),
+    .addStringOption((option) => option.setName("reason").setDescription("Reden voor de timeout").setRequired(false)),
+  // .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers),
 
   async execute(interaction) {
     const targetUser = interaction.options.getUser("user", true);
