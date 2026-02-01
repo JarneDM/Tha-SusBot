@@ -30,23 +30,6 @@ export const VoicetimeCommand = {
       return;
     }
 
-    if (
-      interaction.options.getUser("user")?.id === "773225555767590943" ||
-      interaction.options.getUser("user")?.id === "1131728345931972649" ||
-      interaction.options.getUser("user")?.id === "744923108170924075" ||
-      interaction.options.getUser("user")?.id === "1210180970741891113" ||
-      interaction.options.getUser("user")?.id === "606147559915782194" ||
-      interaction.options.getUser("user")?.id === "1114678815281655909" ||
-      interaction.options.getUser("user")?.id === "696711637440135209"
-    ) {
-      embed.setColor("Red");
-      embed.addFields({
-        name: "No permissions",
-        value: "The bot does not have the right permissions to track the voice time of this user.",
-      });
-      await interaction.editReply({ embeds: [embed] });
-      return;
-    }
     // initialize a map to track time spent in each channel
     const channelTimeMap = {};
     for (const channel of voiceChannels) {

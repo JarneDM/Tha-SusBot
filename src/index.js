@@ -3,6 +3,7 @@ import { config } from "dotenv";
 import path from "path";
 import * as db from "./lib/db.js"; // ons database bestand
 import { VoicetimeCommand } from "./commands/voicetime.js";
+import { TimeoutCommand } from "./commands/timeout.js";
 import { LeaderboardCommand } from "./commands/leaderboard.js";
 import { handleVoiceStateUpdate } from "./events/voiceStateUpdate.js";
 import { WarnCommand, GetWarningsCommand, WarningLeaderboardCommand } from "./commands/warn.js";
@@ -22,6 +23,7 @@ client.commands.set("warn", WarnCommand);
 client.commands.set("getwarnings", GetWarningsCommand);
 client.commands.set("warningleaderboard", WarningLeaderboardCommand);
 client.commands.set("news", NewsCommand);
+client.commands.set("timeout", TimeoutCommand);
 
 client.once(Events.ClientReady, () => {
   console.log(`Logged in als ${client.user.tag}`);
