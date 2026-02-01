@@ -1,4 +1,4 @@
-import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import { EmbedBuilder, MessageFlags, SlashCommandBuilder } from "discord.js";
 import { getLeaderboard, getVoiceChannels, getVoiceSessionsByUser } from "../lib/db.js";
 
 // command to check how much time the user has spent in voice channels
@@ -22,7 +22,11 @@ export const VoicetimeCommand = {
     const userSessions = await getVoiceSessionsByUser(interaction.options.getUser("user")?.id || interaction.user.id);
     if (userSessions.length === 0) {
       embed.addFields({ name: "Geen voice tijd", value: "Deze gebruiker heeft nog geen tijd in voice kanalen doorgebracht." });
-      await interaction.reply({ embeds: [embed] });
+      if (!interaction.options.getUser("user") || interaction.options.getUser("user")?.id === interaction.user.id) {
+        await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
+      } else {
+        await interaction.reply({ embeds: [embed] });
+      }
       return;
     }
 
@@ -55,6 +59,10 @@ export const VoicetimeCommand = {
     // const hours = Math.floor(totalSec / 3600);
     // const minutes = Math.floor((totalSec % 3600) / 60);
 
-    await interaction.reply({ embeds: [embed] });
+    if (!interaction.options.getUser("user") || interaction.options.getUser("user")?.id === interaction.user.id) {
+      await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
+    } else {
+      await interaction.reply({ embeds: [embed] });
+    }
   },
 };
