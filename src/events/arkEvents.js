@@ -5,8 +5,8 @@ import { getArkToggle } from "../lib/db.js";
 
 const TARGET_CHANNEL = "1458172952938811425";
 const VOICE_CHANNEL = "1458162280784068703";
-const TRIGGER_TEXT = "destroyed";
-const EXCLUDE_TEXT = "NEVER_MATCH_THIS_TEXT_12345";
+const TRIGGER_TEXT = "destroyed your";
+const EXCLUDE_TEXT = "tribe of nunio";
 const ARK_STARTUP_SONG = "https://www.youtube.com/watch?v=GGrIg2-ydoM";
 
 export function setupArkEvents(client) {
@@ -44,7 +44,7 @@ export function setupArkEvents(client) {
     const messageContent = message.content.toLowerCase();
     console.log(`[ARK] Checking message: "${messageContent.substring(0, 50)}..."`);
 
-    if (messageContent.includes(TRIGGER_TEXT)) {
+    if (messageContent.includes(TRIGGER_TEXT) && !messageContent.includes(EXCLUDE_TEXT)) {
       console.log(`[ARK] TRIGGER MATCHED! Starting join process...`);
       try {
         console.log(`[ARK] Fetching voice channel: ${VOICE_CHANNEL}`);
