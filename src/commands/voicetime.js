@@ -10,7 +10,7 @@ export const VoicetimeCommand = {
 
   async execute(interaction) {
     // defer reply immediately to prevent timeout
-    const isEphemeral = !interaction.options.getUser("user") || interaction.options.getUser("user")?.id === interaction.user.id;
+    const isEphemeral = !interaction.options.getUser("user");
     await interaction.deferReply({ flags: isEphemeral ? MessageFlags.Ephemeral : 0 });
 
     // get all users from the leaderboard
