@@ -1,6 +1,7 @@
 import { Events } from "discord.js";
 import { Player } from "discord-player";
 import { YoutubeiExtractor } from "discord-player-youtubei";
+import { getArkToggle } from "../lib/db.js";
 
 const TARGET_CHANNEL = "1458172952938811425";
 const VOICE_CHANNEL = "1458162280784068703";
@@ -12,12 +13,28 @@ export function setupArkEvents(client) {
   console.log("[ARK] Setting up Ark events listener...");
   const player = new Player(client);
 
+  let cachedToggle = null;
+  let lastToggleCheck = 0;
+  const isArkEnabled = async () => {
+    const now = Date.now();
+    if (cachedToggle !== null && now - lastToggleCheck < 10000) return cachedToggle;
+    const value = await getArkToggle();
+    cachedToggle = value;
+    lastToggleCheck = now;
+    return value;
+  };
+
   player.extractors.register(YoutubeiExtractor, {}).catch((error) => {
     console.error("[ARK] Failed to register YoutubeiExtractor:", error);
   });
 
   client.on(Events.MessageCreate, async (message) => {
-    console.log(`[ARK] Raw MessageCreate event fired`);
+    // console.log(`[ARK] Raw MessageCreate event fired`);
+
+    const enabled = await isArkEnabled();
+    if (!enabled) {
+      return;
+    }
 
     if (message.channelId !== TARGET_CHANNEL) {
       console.log(`[ARK] Message in wrong channel. Expected: ${TARGET_CHANNEL}, Got: ${message.channelId}`);

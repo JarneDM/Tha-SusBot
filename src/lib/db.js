@@ -18,6 +18,40 @@ if (!supabaseServiceKey) throw new Error("Supabase service role key is missing!"
 export const supabase = createClient(supabaseUrl, supabaseKey);
 export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
 
+export async function getArkToggle() {
+  const { data, error } = await supabaseAdmin.from("ark").select("id, toggle").limit(1).maybeSingle();
+
+  if (error) {
+    console.error("getArkToggle error:", error);
+    return false;
+  }
+
+  if (!data) return false;
+  return Boolean(data.toggle);
+}
+
+export async function setArkToggle(value) {
+  const { data: existing, error: readError } = await supabaseAdmin.from("ark").select("id").limit(1).maybeSingle();
+
+  if (readError) {
+    console.error("setArkToggle read error:", readError);
+    return null;
+  }
+
+  if (existing?.id) {
+    const { data, error } = await supabaseAdmin.from("ark").update({ toggle: value }).eq("id", existing.id).select();
+    if (error) console.error("setArkToggle update error:", error);
+    return data;
+  }
+
+  const { data, error } = await supabaseAdmin
+    .from("ark")
+    .insert([{ toggle: value }])
+    .select();
+  if (error) console.error("setArkToggle insert error:", error);
+  return data;
+}
+
 // Create user if not exists
 export async function createUser(userId, username) {
   const { data, error } = await supabaseAdmin.from("user").upsert({ id: userId, username }, { onConflict: ["id"] });
