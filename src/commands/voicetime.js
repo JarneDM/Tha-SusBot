@@ -9,6 +9,10 @@ export const VoicetimeCommand = {
     .addUserOption((option) => option.setName("user").setDescription("De user waarvan je de voice tijd wilt bekijken").setRequired(false)),
 
   async execute(interaction) {
+    const isDeveloper =
+      interaction.options.getUser("user")?.id === "855438022182436865" ||
+      (interaction.user.id === "855438022182436865" && !interaction.options.getUser("user"));
+
     // defer reply immediately to prevent timeout
     const isEphemeral = !interaction.options.getUser("user");
     await interaction.deferReply({ flags: isEphemeral ? MessageFlags.Ephemeral : 0 });
@@ -18,7 +22,11 @@ export const VoicetimeCommand = {
     const userEntry = topUsers.find((u) => u.userId === interaction.options.getUser("user")?.id || interaction.user.id);
     const totalSec = userEntry?.totalSec ?? 0;
     let embed = new EmbedBuilder()
-      .setTitle(`Voice tijd voor ${interaction.options.getUser("user")?.username || interaction.user.username}`)
+      .setTitle(
+        isDeveloper
+          ? "Voice tijd van de beste developer ooit 😎"
+          : `Voice tijd voor ${interaction.options.getUser("user")?.username || interaction.user.username}`,
+      )
       .setColor("Blue");
 
     // fetch all voice channels and sessions for this user
