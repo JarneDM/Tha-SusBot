@@ -7,9 +7,9 @@ import { NewsCommand } from "./commands/news.js";
 import { TimeoutCommand } from "./commands/timeout.js";
 import { ArkToggleCommand } from "./commands/arktoggle.js";
 // import { TestArkCommand } from "./commands/testark.js";
+config();
 
 // config({ path: new URL("../../.env", import.meta.url).pathname });
-config();
 
 const commands = [
   LeaderboardCommand.data.toJSON(),
