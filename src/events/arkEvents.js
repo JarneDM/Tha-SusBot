@@ -2,6 +2,7 @@ import { Events } from "discord.js";
 import { Player } from "discord-player";
 import { YoutubeiExtractor } from "discord-player-youtubei";
 import { getArkToggle } from "../lib/db.js";
+import { player } from "../index.js";
 
 const TARGET_CHANNEL = "1458172952938811425";
 const VOICE_CHANNEL = "1458162280784068703";
@@ -11,7 +12,7 @@ const ARK_STARTUP_SONG = "https://www.youtube.com/watch?v=GGrIg2-ydoM";
 
 export function setupArkEvents(client) {
   console.log("[ARK] Setting up Ark events listener...");
-  const player = new Player(client);
+  // const player = new Player(client);
 
   let cachedToggle = null;
   let lastToggleCheck = 0;
@@ -66,6 +67,7 @@ export function setupArkEvents(client) {
         console.log(`[ARK] Attempting to play: ${ARK_STARTUP_SONG}`);
         await player.play(voiceChannel, ARK_STARTUP_SONG, {
           requestedBy: message.author,
+          searchEngine: "youtube",
           nodeOptions: {
             metadata: message,
           },

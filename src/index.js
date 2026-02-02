@@ -10,10 +10,14 @@ import { WarnCommand, GetWarningsCommand, WarningLeaderboardCommand } from "./co
 import { NewsCommand } from "./commands/news.js";
 import { setupArkEvents } from "./events/arkEvents.js";
 import { ArkToggleCommand } from "./commands/arktoggle.js";
+import { Player } from "discord-player";
+import extractorPkg from "@discord-player/extractor";
+const { DefaultExtractors } = extractorPkg;
 // import { TestArkCommand } from "./commands/testark.js";
 
 // config({ path: new URL("../../.env", import.meta.url).pathname });
 config();
+
 
 const client = new Client({
   intents: [
@@ -23,6 +27,10 @@ const client = new Client({
     GatewayIntentBits.MessageContent,
   ],
 });
+export const player = new Player(client);
+
+await player.extractors.loadMulti(DefaultExtractors);
+
 
 client.commands = new Collection();
 client.commands.set("voicetime", VoicetimeCommand);
