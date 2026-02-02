@@ -6,7 +6,7 @@ import { WarnCommand, GetWarningsCommand, WarningLeaderboardCommand } from "./co
 import { NewsCommand } from "./commands/news.js";
 import { TimeoutCommand } from "./commands/timeout.js";
 import { ArkToggleCommand } from "./commands/arktoggle.js";
-// import { TestArkCommand } from "./commands/testark.js";
+import { ruinCommand } from "./commands/ruinen.js";
 config();
 
 // config({ path: new URL("../../.env", import.meta.url).pathname });
@@ -20,7 +20,7 @@ const commands = [
   NewsCommand.data.toJSON(),
   TimeoutCommand.data.toJSON(),
   ArkToggleCommand.data.toJSON(),
-  // TestArkCommand.data.toJSON(),
+  ruinCommand.data.toJSON(),
 ];
 
 const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_TOKEN);

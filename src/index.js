@@ -13,7 +13,7 @@ import { ArkToggleCommand } from "./commands/arktoggle.js";
 import { Player } from "discord-player";
 import extractorPkg from "@discord-player/extractor";
 const { DefaultExtractors } = extractorPkg;
-// import { TestArkCommand } from "./commands/testark.js";
+import { ruinCommand } from "./commands/ruinen.js";
 
 // config({ path: new URL("../../.env", import.meta.url).pathname });
 config();
@@ -41,7 +41,7 @@ client.commands.set("warningleaderboard", WarningLeaderboardCommand);
 client.commands.set("news", NewsCommand);
 client.commands.set("timeout", TimeoutCommand);
 client.commands.set("arktoggle", ArkToggleCommand);
-// client.commands.set("testark", TestArkCommand);
+client.commands.set("ruinen", ruinCommand);
 
 client.once(Events.ClientReady, () => {
   console.log(`Logged in als ${client.user.tag}`);
