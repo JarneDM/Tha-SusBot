@@ -41,7 +41,7 @@ client.commands.set("warningleaderboard", WarningLeaderboardCommand);
 client.commands.set("news", NewsCommand);
 client.commands.set("timeout", TimeoutCommand);
 client.commands.set("arktoggle", ArkToggleCommand);
-client.commands.set("ruinen", ruinCommand);
+client.commands.set("update", ruinCommand);
 
 client.once(Events.ClientReady, () => {
   console.log(`Logged in als ${client.user.tag}`);
