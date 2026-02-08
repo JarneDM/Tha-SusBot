@@ -42,12 +42,12 @@ client.commands.set("update", ruinCommand);
 
 client.once(Events.ClientReady, () => {
   console.log(`Logged in als ${client.user.tag}`);
-  console.log("[ARK DEBUG] setupArkEvents is being called...");
+  // console.log("[ARK DEBUG] setupArkEvents is being called...");
 });
 
 // Setup Ark events BEFORE login
-setupArkEvents(client);
-console.log("[ARK DEBUG] setupArkEvents called");
+// setupArkEvents(client);
+// console.log("[ARK DEBUG] setupArkEvents called");
 
 client.on(Events.InteractionCreate, async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
