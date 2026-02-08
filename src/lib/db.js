@@ -118,8 +118,12 @@ export async function endVoiceSession(userId) {
 }
 
 // Get leaderboard
-export async function getLeaderboard(limit = 10) {
-  const { data, error } = await supabaseAdmin.from("voicesession").select("userId, durationSec").not("durationSec", "is", null);
+export async function getLeaderboard(limit = 10, excludeUserId = null) {
+  let query = supabaseAdmin.from("voicesession").select("userId, durationSec").not("durationSec", "is", null);
+  if (excludeUserId) {
+    query = query.neq("userId", excludeUserId);
+  }
+  const { data, error } = await query;
 
   if (error) return [];
 
