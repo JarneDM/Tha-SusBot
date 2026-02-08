@@ -5,7 +5,6 @@ import { VoicetimeCommand } from "./commands/voicetime.js";
 import { WarnCommand, GetWarningsCommand, WarningLeaderboardCommand } from "./commands/warn.js";
 import { NewsCommand } from "./commands/news.js";
 import { TimeoutCommand } from "./commands/timeout.js";
-import { ArkToggleCommand } from "./commands/arktoggle.js";
 import { ruinCommand } from "./commands/ruinen.js";
 config();
 
@@ -19,7 +18,6 @@ const commands = [
   WarningLeaderboardCommand.data.toJSON(),
   NewsCommand.data.toJSON(),
   TimeoutCommand.data.toJSON(),
-  ArkToggleCommand.data.toJSON(),
   ruinCommand.data.toJSON(),
 ];
 
