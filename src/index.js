@@ -8,7 +8,6 @@ import { LeaderboardCommand } from "./commands/leaderboard.js";
 import { handleVoiceStateUpdate } from "./events/voiceStateUpdate.js";
 import { WarnCommand, GetWarningsCommand, WarningLeaderboardCommand } from "./commands/warn.js";
 import { NewsCommand } from "./commands/news.js";
-import { setupArkEvents } from "./events/arkEvents.js";
 import { Player } from "discord-player";
 import extractorPkg from "@discord-player/extractor";
 const { DefaultExtractors } = extractorPkg;
