@@ -8,8 +8,6 @@ import { LeaderboardCommand } from "./commands/leaderboard.js";
 import { handleVoiceStateUpdate } from "./events/voiceStateUpdate.js";
 import { WarnCommand, GetWarningsCommand, WarningLeaderboardCommand } from "./commands/warn.js";
 import { NewsCommand } from "./commands/news.js";
-import { setupArkEvents } from "./events/arkEvents.js";
-import { ArkToggleCommand } from "./commands/arktoggle.js";
 import { Player } from "discord-player";
 import extractorPkg from "@discord-player/extractor";
 const { DefaultExtractors } = extractorPkg;
@@ -40,7 +38,6 @@ client.commands.set("getwarnings", GetWarningsCommand);
 client.commands.set("warningleaderboard", WarningLeaderboardCommand);
 client.commands.set("news", NewsCommand);
 client.commands.set("timeout", TimeoutCommand);
-client.commands.set("arktoggle", ArkToggleCommand);
 client.commands.set("update", ruinCommand);
 
 client.once(Events.ClientReady, () => {
